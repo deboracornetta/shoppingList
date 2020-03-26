@@ -22,13 +22,22 @@
 
 		<div class="container-fluid" id="wrapper">
 
+			{% if messages %}
+			<ul class="messages">
+				{% for message in messages %}
+				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+				{% endfor %}
+			</ul>
+			{% endif %}
+
+
 			<div class="row">
 				<div class="col-lg-4 col-lg-offset-4" id="content">
 					<h2>Your List <i class="fas fa-pencil-alt"></i>
 
 </h2>
 
-					<form action="{% url 'add' %}" method="POST" role="form">
+					<form action="{% url 'listings:add' %}" method="POST" role="form">
 						{% csrf_token %}
 						<div class="form-group">
 							<div class="input-group">
@@ -45,12 +54,12 @@
 					<div class="row t10">
 						<div class="col-lg-12">
 							<div class="btn-toolbar">
-								<a href="{% url 'deleteBought' %}">
+								<a href="{% url 'listings:delete_items_bought' %}">
 									<button type="button" class="btn btn-danger btn-block">
 										<i class="fas fa-trash-alt"></i> DELETE BOUGHT ITEMS
 									</button>
 								</a>
-								<a href="#">
+								<a href="{% url 'listings:delete_all_items' %}">
 									<button type="button" class="btn btn-danger btn-block">
 										<i class="fas fa-trash-alt"></i> Assignment
 									</button>
@@ -62,13 +71,22 @@
 
 					<ul class="list-group t20">
 					{% for t in new_item %}
-						{% if t.bought %}
-						<li><span class="list-group-item todo-completed">{{t.item_to_buy}}</span> <button type="button" class="btn btn-outline-warning"><a href="deleteItem">Delete</a></button></li>
-						{% else %}
-						<a href="{% url 'bought' t.id %}"><li><span class="list-group-item">{{t.item_to_buy}}</span> <button type="button" class="btn btn-outline-warning"><a href="deleteItem">Delete</a></button></li></a>
+						{% if not t.bought %}
+							<li class="list-group-item">
+								<a href="{% url 'listings:bought' t.id %}">{{t.item_to_buy}}</a>
+								<a class="btn btn-outline-warning" href="{% url 'listings:delete_item' t.id %}">Delete</a>
+							</li>
 						{% endif %}
 					{% endfor %}
-						
+					{% for t in new_item %}
+						{% if t.bought %}
+						<li class="list-group-item">
+							<span class="todo-completed">{{t.item_to_buy}}</span>
+							<a class="btn btn-outline-warning" href="{% url 'listings:delete_item' t.id %}">Delete</a>
+						</li>
+						{% endif %}
+					{% endfor %}
+
 					</ul>
 				</div>
 			</div>
@@ -76,6 +94,6 @@
 
 		</div>
 
-		
+
 	</body>
 </html>

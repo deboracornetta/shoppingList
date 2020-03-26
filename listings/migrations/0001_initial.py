@@ -7,16 +7,23 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Shopping_list',
+            name="Shopping_list",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('bought', models.BooleanField(default=False)),
-                ('item_to_buy', models.CharField(max_length=50)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("bought", models.BooleanField(default=False)),
+                ("item_to_buy", models.CharField(max_length=50)),
             ],
         ),
     ]
