@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>My Lists</title>
+
+		<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="{% static 'listings/css/flatly.min.css' %}" />
+		<link rel="stylesheet" href="{% static 'listings/css/styles.css' %}" />
+		<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+
+
+	</head>
+	<body>
+
+		<div class="container-fluid" id="wrapper">
+
+			<div class="row">
+				<div class="col-lg-4 col-lg-offset-4" id="content">
+					<h2>Your List <i class="fas fa-pencil-alt"></i>
+
+</h2>
+
+					<form action="{% url 'add' %}" method="POST" role="form">
+						{% csrf_token %}
+						<div class="form-group">
+							<div class="input-group">
+								{{ form.text }}
+							  <span class="input-group-btn">
+								  <button type="submit" class="btn btn-success" id="add-btn">Buy it <i class="fas fa-check-circle"></i>
+
+</button>
+							  </span>
+							</div>
+						</div>
+					</form>
+
+					<div class="row t10">
+						<div class="col-lg-12">
+							<div class="btn-toolbar">
+								<a href="{% url 'deleteBought' %}">
+									<button type="button" class="btn btn-danger btn-block">
+										<i class="fas fa-trash-alt"></i> DELETE BOUGHT ITEMS
+									</button>
+								</a>
+								<a href="#">
+									<button type="button" class="btn btn-danger btn-block">
+										<i class="fas fa-trash-alt"></i> Assignment
+									</button>
+								</a>
+
+							</div>
+						</div>
+					</div>
+
+					<ul class="list-group t20">
+					{% for t in new_item %}
+						{% if t.bought %}
+						<li><span class="list-group-item todo-completed">{{t.item_to_buy}}</span> <button type="button" class="btn btn-outline-warning"><a href="deleteItem">Delete</a></button></li>
+						{% else %}
+						<a href="{% url 'bought' t.id %}"><li><span class="list-group-item">{{t.item_to_buy}}</span> <button type="button" class="btn btn-outline-warning"><a href="deleteItem">Delete</a></button></li></a>
+						{% endif %}
+					{% endfor %}
+						
+					</ul>
+				</div>
+			</div>
+
+
+		</div>
+
+		
+	</body>
+</html>
