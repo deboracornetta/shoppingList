@@ -22,6 +22,18 @@
 
 		<div class="container-fluid" id="wrapper">
 
+			<!-- Navbar Right Side -->
+			<div class="navbar-nav">
+				{% if user.is_authenticated %}
+				  <a class="nav-item nav-link" href="{% url 'post-create' %}">New Post</a>
+				  <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
+				  <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+				{% else %}
+				  <a class="nav-item nav-link" href="#">Login</a>
+				  <a class="nav-item nav-link" href="#">Register</a>
+				{% endif %}
+			  </div>
+
 			{% if messages %}
 			<ul class="messages">
 				{% for message in messages %}
@@ -29,8 +41,7 @@
 				{% endfor %}
 			</ul>
 			{% endif %}
-
-
+			{% block content %}{% endblock %}
 			<div class="row">
 				<div class="col-lg-4 col-lg-offset-4" id="content">
 					<h2>Your List <i class="fas fa-pencil-alt"></i>
